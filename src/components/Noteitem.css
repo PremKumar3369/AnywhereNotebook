@@ -1,0 +1,62 @@
+/* src/components/Noteitem.css */
+
+.card {
+  font-family: Montserrat, sans-serif;
+  height: 250px;
+  background: linear-gradient(#5B4D4D, #3C2F2F);
+  border: 3px solid #000000;
+  box-shadow: 12px 12px 0 #000000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.head {
+  font-size: 14px;
+  font-weight: 900;
+  background: #F0EDCC;
+  padding: 8px 12px;
+  color: #000000;
+  border-bottom: 3px solid #000000;
+}
+
+.content {
+  padding: 12px;
+  background-color: #02343F;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color:aliceblue;
+}
+.text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* show 4 lines max */
+  -webkit-box-orient: vertical;
+  margin-bottom: 10px;
+}
+
+.button {
+  align-self: flex-start;
+  padding: 5px 10px;
+  border: 3px solid #000000;
+  box-shadow: 3px 3px 0 #000000;
+  background: #F0EDCC;
+  font-weight: 750;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 1.5px 1.5px 0 #000000;
+  background: #1ac2ff;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}

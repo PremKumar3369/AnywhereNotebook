@@ -1,11 +1,14 @@
-const express = require('express');
-const connectToMongo = require('./database');
+const express = require("express");
+const connectToMongo = require("./database");
+
+var cors = require("cors");
 
 const app = express();
 
 (async () => {
   await connectToMongo();
-
+  // to enable CORS
+  app.use(cors());
   // Middleware
   app.use(express.json());
 

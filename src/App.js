@@ -1,24 +1,26 @@
-
-import './App.css';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import About from "./components/About";
+import Navbar from "./components/Navbar";
+import "bootstrap/dist/css/bootstrap.min.css";
+import NoteSate from "./context/Notes/NoteState";
+import Alert from "./components/Alert";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <NoteSate>
+        <Navbar />
+        {/* <Alert message="Success Container"/> */}
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </div>
+      </NoteSate>
+    </>
   );
 }
 

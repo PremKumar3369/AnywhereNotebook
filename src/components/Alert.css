@@ -1,0 +1,31 @@
+.mybox {
+	font-family: "Josefin Sans", sans-serif;
+	min-width: 400px;
+	width: 75%;
+	max-width: 500px;
+	border: 2px solid #000;
+	margin: 0 auto 15px;
+	text-align: center;
+	padding: 20px;
+	font-weight: bold;
+	border-radius: 10px;
+	position: relative;
+}
+.success {
+	background: #b3eca9;
+	color: #306517;
+	border-color: #2d2d2d;
+}
+
+.success:before {
+	font-family: "Font Awesome 5 Free";
+	color: #306517;
+	font-weight: 900;
+	content: "\f00c";
+	font-size: 2rem;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	text-shadow: 1px 2px 1px black;
+	transform: rotate(-5deg);
+}
