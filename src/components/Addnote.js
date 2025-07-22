@@ -1,11 +1,15 @@
-import { useContext, useState } from "react";
+// Addnote.js
+import React, { useContext, useState } from "react";
 import NoteContext from "../context/Notes/NoteContext";
-import "./Addnote.css"; // Make sure this file contains your 3D styles
+import AlertContext from "../context/AlertContext"; // ✅ Import context
+import "./Addnote.css";
+// import Notes from "./Notes";
 
 function Addnote() {
   const { addNote } = useContext(NoteContext);
+  const { showAlert } = useContext(AlertContext); // ✅ Access alert
 
-  const [note, setNote] = useState({ title: "", description: "" });
+  const [note, setNote] = useState({ title: "", description: "", tag: "" });
 
   const handleChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
@@ -13,9 +17,13 @@ function Addnote() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (note.title.trim() && note.description.trim()) {
-      addNote(note.title, note.description, "default");
-      setNote({ title: "", description: "" }); // reset form
+
+    const { title, description, tag } = note;
+
+    if (title.trim() && description.trim()) {
+      addNote(title, description, tag || "default");
+      showAlert("Note added successfully ✨", "success"); // ✅ Alert here
+      setNote({ title: "", description: "", tag: "" });
     }
   };
 
@@ -24,38 +32,21 @@ function Addnote() {
       <h1 className="heading__styled">Add a Note</h1>
 
       <form onSubmit={handleSubmit} className="d-flex flex-column gap-4">
-        {/* Title Input */}
+        {/* Inputs... */}
         <div className="input__container">
           <div className="shadow__input"></div>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            className="input__search"
-            placeholder="Enter title"
-            value={note.title}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="title" value={note.title} onChange={handleChange} className="input__search" placeholder="Enter title" required />
         </div>
-
-        {/* Description Input */}
         <div className="input__container">
           <div className="shadow__input"></div>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            className="input__search"
-            placeholder="Enter description"
-            value={note.description}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="description" value={note.description} onChange={handleChange} className="input__search" placeholder="Enter description" required />
+        </div>
+        <div className="input__container">
+          <div className="shadow__input"></div>
+          <input type="text" name="tag" value={note.tag} onChange={handleChange} className="input__search" placeholder="Enter tag" />
         </div>
 
-        {/* Submit Button */}
-        <button type="submit" className="input__button__shadow">
+        <button disabled={note.title.length < 3 || note.description.length < 3} type="submit" className="input__button__shadow">
           Submit Note
         </button>
       </form>

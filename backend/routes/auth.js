@@ -4,7 +4,7 @@ const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const fetchUser = require("../middleware/fetchUser")
+const fetchUser = require("../middleware/fetchUser");
 
 const SALT_ROUNDS = 12;
 const JWT_ST = "Premkumar";
@@ -38,7 +38,7 @@ router.post(
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
       const user = await User.create({
-        name, 
+        name,
         email,
         password: hashedPassword,
       });
@@ -50,9 +50,8 @@ router.post(
       };
 
       const authdata = jwt.sign(data, JWT_ST);
-      console.log(authdata);
-
-      return res.status(201).json(authdata);
+      console.log({ authdata });
+      return res.status(201).json({ authdata });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ error: "Server Error" });
@@ -70,6 +69,7 @@ router.post(
     }),
   ],
   async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -80,6 +80,7 @@ router.post(
     try {
       const user = await User.findOne({ email });
       if (!user) {
+        success = false;
         return res.status(400).json({ error: "Invalid email or password." });
       }
 
@@ -95,7 +96,8 @@ router.post(
       };
 
       const authdata = jwt.sign(data, JWT_ST);
-      console.log(authdata);
+      success = true;
+      console.log(success, authdata);
 
       return res.status(200).json({ authdata });
     } catch (err) {

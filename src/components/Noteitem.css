@@ -54,7 +54,8 @@
 .button:hover {
   transform: translate(1.5px, 1.5px);
   box-shadow: 1.5px 1.5px 0 #000000;
-  background: #1ac2ff;
+  background: #ffffff;
+  cursor: text;
 }
 
 .card:hover {

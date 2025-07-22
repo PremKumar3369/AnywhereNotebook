@@ -1,16 +1,17 @@
-import React from 'react';
-import './Alert.css';
+import React, { useContext } from "react";
+import AlertContext from "../context/AlertContext";
+import "./Alert.css";
 
-function Alert(props) {
+function Alert() {
+  const { alert } = useContext(AlertContext);
+
+  if (!alert) return null;
+
   return (
-    <div>
-      <div className="mybox success">
-				<div className="mybox-content">
-					<p>
-						{props.message}
-					</p>
-				</div>
-			</div>
+    <div className={`mybox ${alert.type}`}>
+      <div className="mybox-content">
+        <p>{alert.message}</p>
+      </div>
     </div>
   );
 }

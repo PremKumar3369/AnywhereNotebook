@@ -3,8 +3,20 @@ const router = express.Router();
 const fetchUser = require("../middleware/fetchUser");
 const Notes = require("../models/Notes");
 const { body, validationResult } = require("express-validator");
+const supabase = require("../AI/supabaseClient");
+const { pipeline } = require('@xenova/transformers');
 
-// Route 1: Get all notes for the logged-in user
+// 🧠 Lazy-initialized embedding pipeline
+let embedderPromise = null;
+
+async function getEmbedder() {
+  if (!embedderPromise) {
+    embedderPromise = pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+  }
+  return await embedderPromise;
+}
+
+// ✅ Fetch all notes
 router.get("/fetchAllNotes", fetchUser, async (req, res) => {
   try {
     const notes = await Notes.find({ user: req.user.id });
@@ -15,7 +27,7 @@ router.get("/fetchAllNotes", fetchUser, async (req, res) => {
   }
 });
 
-// Route 2: Add a new note - POST /api/notes/addNote
+// ✅ Add a new note + store vector
 router.post(
   "/addNote",
   fetchUser,
@@ -40,37 +52,57 @@ router.post(
       });
 
       const savedNote = await note.save();
+
+      // 🧠 Generate embedding
+      const embedder = await getEmbedder();
+      const inputText = `${title}\n\n${description}`;
+
+      const result = await embedder([inputText], {
+        pooling: 'mean',
+        normalize: true,
+      });
+
+      const vector = Array.from(result[0].data);
+
+      // 💾 Store embedding in Supabase
+      const { error } = await supabase.from('note_embeddings').insert([{
+  user_id: req.user.id,
+  note_id: savedNote._id.toString(),
+  content: inputText,
+  embedding: vector,
+}]);
+
+if (error) {
+  console.error("🔥 Supabase insert error:", error);
+  return res.status(500).json({ error: "Vector storage failed" });
+}
+
+
       res.json(savedNote);
     } catch (err) {
-      console.error(err);
+      console.error("AddNote error:", err);
       return res.status(500).json({ error: "Server Error" });
     }
   }
 );
 
-// Route 3: Update an existing note - PUT /api/notes/updateNote/:id
+// ✅ Update an existing note
 router.put("/updateNote/:id", fetchUser, async (req, res) => {
   const { title, description, tag } = req.body;
 
   try {
-    // Create newNote object with updated fields
     const newNote = {};
     if (title) newNote.title = title;
     if (description) newNote.description = description;
     if (tag) newNote.tag = tag;
 
-    // Find note by ID
     let note = await Notes.findById(req.params.id);
-    if (!note) {
-      return res.status(404).json({ error: "Note Not Found" });
-    }
+    if (!note) return res.status(404).json({ error: "Note Not Found" });
 
-    // Ensure the user owns the note
     if (note.user.toString() !== req.user.id) {
       return res.status(401).json({ error: "Unauthorized access" });
     }
 
-    // Update note
     note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true });
     res.json({ note });
   } catch (error) {
@@ -79,21 +111,16 @@ router.put("/updateNote/:id", fetchUser, async (req, res) => {
   }
 });
 
-// Route 4: Delete an existing note - DELETE /api/notes/deleteNote/:id
+// ✅ Delete a note
 router.delete("/deleteNote/:id", fetchUser, async (req, res) => {
   try {
-    // Find note by ID
     let note = await Notes.findById(req.params.id);
-    if (!note) {
-      return res.status(404).json({ error: "Note Not Found" });
-    }
+    if (!note) return res.status(404).json({ error: "Note Not Found" });
 
-    // Check if the note belongs to the logged-in user
     if (note.user.toString() !== req.user.id) {
       return res.status(401).json({ error: "Unauthorized access" });
     }
 
-    // Delete the note
     await Notes.findByIdAndDelete(req.params.id);
     res.json({ success: "Successfully deleted the note", note });
   } catch (error) {

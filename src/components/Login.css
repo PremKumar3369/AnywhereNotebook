@@ -1,0 +1,89 @@
+/* Login.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #02343F;
+}
+
+.login-box {
+  background: #F0EDCC;
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  border: 4px solid #000;
+  box-shadow: 12px 12px 0 #000;
+  border-radius: 8px;
+  transform: rotateX(5deg) rotateY(-5deg);
+  transition: transform .4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow .4s;
+}
+.login-box:hover {
+  transform: rotateX(0) rotateY(0) scale(1.03);
+  box-shadow: 20px 20px 0 #000;
+}
+
+.login-box h2 {
+  font-family: Montserrat, sans-serif;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #000;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.input-layer {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.input-layer input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 3px solid #000;
+  border-radius: 5px;
+  background: #02343F;
+  color: #F0EDCC;
+  font-size: 1rem;
+  transition: background .3s, transform .3s, box-shadow .3s;
+}
+.input-layer input::placeholder {
+  color: #ccc;
+}
+.input-layer input:hover,
+.input-layer input:focus {
+  background: #fff;
+  color: #000;
+  transform: translateZ(5px);
+  box-shadow: 5px 5px 0 #000;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 0.8rem;
+  border: 3px solid #000;
+  background: #02343F;
+  color: #F0EDCC;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background .3s, transform .3s, box-shadow .3s;
+}
+.login-btn:hover {
+  background: #D97B38;
+  transform: translateZ(5px);
+  box-shadow: 5px 5px 0 #000;
+}
+
+.switch-text {
+  text-align: center;
+  margin-top: 1rem;
+}
+.switch-text span {
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}

@@ -1,31 +1,80 @@
 .mybox {
-	font-family: "Josefin Sans", sans-serif;
-	min-width: 400px;
-	width: 75%;
-	max-width: 500px;
-	border: 2px solid #000;
-	margin: 0 auto 15px;
-	text-align: center;
-	padding: 20px;
-	font-weight: bold;
-	border-radius: 10px;
-	position: relative;
+  font-family: "Josefin Sans", sans-serif;
+  width: fit-content;
+  max-width: 90%;
+  border: 2px solid #000;
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeInOut 3s ease forwards;
 }
+
+/* 🔄 Fade In/Out Animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
 .success {
-	background: #b3eca9;
-	color: #306517;
-	border-color: #2d2d2d;
+  background: #b3eca9;
+  color: #306517;
+  border-color: #2d2d2d;
 }
 
 .success:before {
-	font-family: "Font Awesome 5 Free";
-	color: #306517;
-	font-weight: 900;
-	content: "\f00c";
-	font-size: 2rem;
-	position: absolute;
-	left: 10px;
-	top: 10px;
-	text-shadow: 1px 2px 1px black;
-	transform: rotate(-5deg);
+  font-family: "Font Awesome 5 Free";
+  color: #306517;
+  font-weight: 900;
+  content: "";
+  font-size: 2rem;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  text-shadow: 1px 2px 1px black;
+  transform: rotate(-5deg);
+}
+
+.danger {
+  background: #f8d7da;
+  color: #842029;
+  border-color: #842029;
+  animation: fadeInOut 3s ease forwards, shake 0.3s ease-in-out;
+}
+
+/* 🚨 Shake Animation */
+@keyframes shake {
+  0% { transform: translateX(-50%) translateY(0); }
+  20% { transform: translateX(-52%) translateY(-2px); }
+  40% { transform: translateX(-48%) translateY(2px); }
+  60% { transform: translateX(-52%) translateY(-2px); }
+  80% { transform: translateX(-48%) translateY(2px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+
+.danger:before {
+  content: "!";
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: #842029;
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
