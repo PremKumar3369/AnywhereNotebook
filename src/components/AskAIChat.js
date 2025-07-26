@@ -14,6 +14,7 @@ export default function AskAIChat() {
   const [isTyping, setIsTyping] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const chatEndRef = useRef(null);
+  const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
   // 🔒 Check if logged in and fetch user info
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function AskAIChat() {
       navigate('/login');
       return;
     }
-    fetch('http://localhost:5000/api/auth/getUserInfo', {
+    fetch(`${API_BASE}/api/auth/getUserInfo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ export default function AskAIChat() {
     setIsTyping(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/notes/ask', {
+      const res = await fetch(`${API_BASE}/api/notes/ask`,  {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
