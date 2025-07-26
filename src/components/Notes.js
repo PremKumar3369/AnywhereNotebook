@@ -31,12 +31,12 @@ function Notes() {
     } else {
       navigate("/Login");
     }
-  }, [getNotes, navigate]);
+  }, [navigate]);
   useEffect(() => {
     if (formRef.current && aiRef.current) {
       aiRef.current.style.height = `${formRef.current.offsetHeight}px`;
     }
-  }, [getNotes, navigate]);
+  }, [navigate]);
   const updateNote = (currentNote) => {
     ref.current.click();
     setNote({
