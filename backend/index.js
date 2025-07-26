@@ -10,7 +10,11 @@ const app = express();
 (async () => {
   await connectToMongo();
   // to enable CORS
-  app.use(cors());
+app.use(cors({
+  origin: ["https://anywhere-notebook.vercel.app"],
+  credentials: true,
+}));
+
   // Middleware
   app.use(express.json());
 
@@ -25,7 +29,10 @@ const app = express();
   });
 
   // Start the server
-  app.listen(5000, () => {
-    console.log("🚀 Server listening on http://localhost:5000");
-  });
+  const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server listening on http://localhost:${PORT}`);
+});
+
 })();

@@ -67,10 +67,12 @@ function Login() {
       }
     }
 
-    const url =
-      mode === "login"
-        ? "http://localhost:5000/api/auth/loginUser"
-        : "http://localhost:5000/api/auth/createuser";
+    const baseURL = process.env.REACT_APP_API_BASE_URL;
+const url =
+  mode === "login"
+    ? `${baseURL}/api/auth/loginUser`
+    : `${baseURL}/api/auth/createuser`;
+
 
     const payload =
       mode === "login"
