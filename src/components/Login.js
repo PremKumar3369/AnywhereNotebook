@@ -3,19 +3,69 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import AlertContext from "../context/AlertContext";
 
-
 function Login() {
   const [mode, setMode] = useState("login");
   const [creds, setCreds] = useState({ email: "", password: "", name: "" });
+  const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showStrength, setShowStrength] = useState(false);
   const navigate = useNavigate();
   const { showAlert } = useContext(AlertContext);
 
+  const validatePassword = (password) => {
+    const minLength = /.{8,}/;
+    const upper = /[A-Z]/;
+    const lower = /[a-z]/;
+    const digit = /[0-9]/;
+    const special = /[^A-Za-z0-9]/;
+
+    if (!minLength.test(password))
+      return "Password must be at least 8 characters.";
+    if (!upper.test(password))
+      return "Must contain at least one uppercase letter.";
+    if (!lower.test(password))
+      return "Must contain at least one lowercase letter.";
+    if (!digit.test(password)) return "Must contain at least one number.";
+    if (!special.test(password))
+      return "Must contain at least one special character.";
+
+    return "";
+  };
+
+  const getPasswordStrength = (password) => {
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    if (score <= 2) return "weak";
+    if (score === 3 || score === 4) return "medium";
+    return "strong";
+  };
+
   const onChange = (e) => {
-    setCreds({ ...creds, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setCreds({ ...creds, [name]: value });
+
+    if (mode === "signup" && name === "password") {
+      const error = validatePassword(value);
+      setPasswordError(error);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (mode === "signup") {
+      const error = validatePassword(creds.password);
+      if (error) {
+        setPasswordError(error);
+        showAlert(error, "danger");
+        return;
+      }
+    }
 
     const url =
       mode === "login"
@@ -41,10 +91,8 @@ function Login() {
         json = await response.json();
       } else {
         const raw = await response.text();
-        json = { authdata: raw }; // Fallback if response is just a string
+        json = { authdata: raw };
       }
-
-      console.log("Parsed Response:", json);
 
       if (
         (response.status === 200 || response.status === 201) &&
@@ -52,10 +100,10 @@ function Login() {
         typeof json.authdata === "string"
       ) {
         localStorage.setItem("token", json.authdata);
-        showAlert("Welcome back!", "success");
+        showAlert("Welcome!", "success");
         navigate("/");
       } else {
-        showAlert("Invalid Email Or Password", "danger");
+        showAlert("Invalid Email or Password", "danger");
       }
     } catch (err) {
       console.error("Fetch Error:", err);
@@ -63,8 +111,16 @@ function Login() {
     }
   };
 
+  const strength = getPasswordStrength(creds.password);
+  const strengthPercentage = {
+    weak: "33%",
+    medium: "66%",
+    strong: "100%",
+  }[strength];
+
   return (
     <div className="login-container">
+     
       <div className="login-box">
         <h2>{mode === "login" ? "Login" : "Sign Up"}</h2>
         <form onSubmit={handleSubmit}>
@@ -80,6 +136,7 @@ function Login() {
               />
             </div>
           )}
+
           <div className="input-layer">
             <input
               type="email"
@@ -91,21 +148,56 @@ function Login() {
               autoComplete="username"
             />
           </div>
+
           <div className="input-layer">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={creds.password}
-              onChange={onChange}
-              required
-              autoComplete="current-password"
-            />
+            <div className="password-container">
+              <input
+  type={showPassword ? "text" : "password"}
+  name="password"
+  placeholder="Password"
+  value={creds.password}
+  onChange={onChange}
+  onFocus={() => setShowStrength(true)}
+  onBlur={() => setShowStrength(false)}
+  required
+  autoComplete={mode === "login" ? "current-password" : "new-password"}
+/>
+              <span
+                className="eye-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "👁️‍🗨️" : "👁️"}
+              </span>
+            </div>
+            {mode === "login" && (
+              <p className="forgot-password-link">
+                <a href="/forgot-password">Forgot Password?</a>
+              </p>
+            )}
+            {mode === "signup" && showStrength && (
+              <>
+                <div className="password-strength-bar">
+                  <div
+                    className={`password-strength-fill ${strength}`}
+                    style={{ width: strengthPercentage }}
+                  ></div>
+                </div>
+                <p className="strength-text">
+                  {strength.charAt(0).toUpperCase() + strength.slice(1)}
+                </p>
+              </>
+            )}
+
+            {mode === "signup" && passwordError && (
+              <p className="password-error">{passwordError}</p>
+            )}
           </div>
+
           <button type="submit" className="login-btn">
             {mode === "login" ? "Login" : "Sign Up"}
           </button>
         </form>
+
         <div className="switch-text">
           {mode === "login" ? (
             <span onClick={() => setMode("signup")}>
@@ -115,7 +207,9 @@ function Login() {
             <span onClick={() => setMode("login")}>
               Already have an account? <strong>Login</strong>
             </span>
+            
           )}
+          
         </div>
       </div>
     </div>

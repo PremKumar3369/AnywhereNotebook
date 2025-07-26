@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+:root {
+  --comic-font: 'Bangers', cursive;
+}
+
+.comic-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem;
+  padding: 0;
+}
+
+.comic-panel {
+  padding: 2rem;
+  position: relative;
+  color: #000;
+  font-family: var(--comic-font);
+  text-transform: uppercase;
+  border: 6px solid #000;
+  box-shadow: 10px 10px 0 #000;
+  overflow: hidden;
+}
+
+/* Slight bend: alternating skew-bottom */
+.comic-panel {
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0% 100%);
+}
+
+.panel-odd {
+  transform: skewY(-1deg);
+}
+
+.panel-odd::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: inherit;
+  transform: skewY(2deg);
+}
+
+.panel-even {
+  transform: skewY(1deg);
+}
+
+.panel-even::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: inherit;
+  transform: skewY(-2deg);
+}
+
+.comic-panel h2 {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+}
+
+.comic-panel p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-transform: none;
+}
+
+/* Color coordination already inline via style */
+
+@media (max-width: 600px) {
+  .comic-panel {
+    padding: 1rem;
+  }
+  .comic-panel h2 {
+    font-size: 1.6rem;
+  }
+  .comic-panel p {
+    font-size: 1rem;
+  }
+}

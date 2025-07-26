@@ -28,7 +28,7 @@ function Addnote() {
   };
 
   return (
-    <div className="container my-5">
+    <div className="addnote-wrapper">
       <h1 className="heading__styled">Add a Note</h1>
 
       <form onSubmit={handleSubmit} className="d-flex flex-column gap-4">

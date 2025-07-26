@@ -1,8 +1,12 @@
+// src/components/AskAIChat.js
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './AskAIChat.module.css';
 import { FaPaperPlane, FaPaperclip, FaMicrophone, FaMoon, FaSun } from 'react-icons/fa';
 
 export default function AskAIChat() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([
     { text: "Hello! I'm your AI assistant. How can I help you today?", sender: 'ai' }
   ]);
@@ -11,8 +15,33 @@ export default function AskAIChat() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const chatEndRef = useRef(null);
 
+  // 🔒 Check if logged in and fetch user info
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    fetch('http://localhost:5000/api/auth/getUserInfo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authdata': token
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          navigate('/login');
+        } else {
+          setUser(data);
+        }
+      })
+      .catch(() => navigate('/login'));
+  }, [navigate]);
+
+  useEffect(() => {
+    // chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     document.body.setAttribute('data-theme', isDarkTheme ? 'dark' : 'light');
   }, [messages, isDarkTheme]);
 
@@ -20,46 +49,44 @@ export default function AskAIChat() {
     const trimmed = input.trim();
     if (!trimmed) return;
 
-    const userMessage = { text: trimmed, sender: 'user' };
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages(prev => [...prev, { text: trimmed, sender: 'user' }]);
     setInput('');
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/notes/ask', {
+      const res = await fetch('http://localhost:5000/api/notes/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'authdata': localStorage.getItem('token') || '',
+          'authdata': localStorage.getItem('token') || ''
         },
-        body: JSON.stringify({ question: trimmed }),
+        body: JSON.stringify({ question: trimmed })
       });
-
-      const data = await response.json();
-      const sorted = data.results.sort((a, b) => a.distance - b.distance);
-const replyText = sorted.length > 0
-  ? `📌 Top match:\n\n${sorted[0].content}`
-  : "🤖 No matching notes found.";
-
-
-      setMessages((prev) => [...prev, { text: replyText, sender: 'ai' }]);
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
-      setMessages((prev) => [...prev, { text: "⚠️ Server error occurred.", sender: 'ai' }]);
+      const data = await res.json();
+      const sorted = (data.results || []).sort((a, b) => a.distance - b.distance);
+      const replyText = sorted.length
+        ? `📌 Top match:\n\n${sorted[0].content}`
+        : "🤖 No matching notes found.";
+      setMessages(prev => [...prev, { text: replyText, sender: 'ai' }]);
+    } catch {
+      setMessages(prev => [...prev, { text: "⚠️ Server error occurred.", sender: 'ai' }]);
     } finally {
       setIsTyping(false);
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSend();
-  };
+  const handleKeyDown = e => { if (e.key === 'Enter') handleSend(); };
 
-  const renderMessageText = (text) =>
-    text.split('\n').map((line, idx) => <div key={idx}>{line}</div>);
+  const renderMessageText = text =>
+    text.split('\n').map((line, i) => <div key={i}>{line}</div>);
+
+  // ❗ If still loading user info, show a placeholder
+  if (!user) {
+    return <div className="loading-placeholder">Loading AI assistant...</div>;
+  }
 
   return (
-    <div className={styles.askAiWrapper}>
+    // <div className={styles.askAiWrapper}>
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.headerTitle}>
@@ -68,6 +95,10 @@ const replyText = sorted.length > 0
               <div className={styles.statusIndicator}></div>
               <span>Online</span>
             </div>
+          </div>
+          <div className={styles.userBanner}>
+            {/* 👤 Optional: Display user info */}
+            <span> <strong>{user.name}</strong></span>
           </div>
           <div className={styles.controls}>
             <button
@@ -84,9 +115,10 @@ const replyText = sorted.length > 0
           {messages.map((msg, i) => (
             <div
               key={i}
-              className={`${styles.message} ${msg.sender === 'user' ? styles.userMessage : styles.botMessage}`}
+              className={`${styles.message} ${msg.sender === 'user'
+                ? styles.userMessage : styles.botMessage}`}
             >
-              <div className={styles.avatar}>{msg.sender === 'user' ? 'U' : 'AI'}</div>
+              <div className={styles.avatar}>{msg.sender === 'user' ? `${user.name}` : 'AI'}</div>
               <div className={styles.messageBubble}>
                 {renderMessageText(msg.text)}
               </div>
@@ -111,7 +143,7 @@ const replyText = sorted.length > 0
               className={styles.messageInput}
               placeholder="What notes did I write about topic?"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
             />
             <div className={styles.actionButtons}>
@@ -124,6 +156,6 @@ const replyText = sorted.length > 0
           </div>
         </div>
       </div>
-    </div>
+    // </div>
   );
 }

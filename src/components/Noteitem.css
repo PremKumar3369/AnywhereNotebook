@@ -1,7 +1,8 @@
 /* src/components/Noteitem.css */
-
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 .card {
-  font-family: Montserrat, sans-serif;
+   font-family: 'Bangers';
+   font-weight: normal; 
   height: 250px;
   background: linear-gradient(#5B4D4D, #3C2F2F);
   border: 3px solid #000000;
@@ -15,29 +16,37 @@
 .head {
   font-size: 14px;
   font-weight: 900;
-  background: #F0EDCC;
+  background: #000000;
   padding: 8px 12px;
-  color: #000000;
+  color: #ffffff;
   border-bottom: 3px solid #000000;
 }
 
 .content {
   padding: 12px;
-  background-color: #02343F;
+  background-color: #ff3131;
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  color:aliceblue;
+  /* overflow: hidden; */
+  color:rgb(0, 0, 0);
+    height: 100px;
+  overflow-y: auto;
 }
 .text {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* show 4 lines max */
+  -webkit-line-clamp: 4; 
+  line-clamp: 4;/* show 4 lines max */
   -webkit-box-orient: vertical;
   margin-bottom: 10px;
+      background-color: #ff3131;
+    
+    margin: 0;
+    padding: 3px 10px;
+
 }
 
 .button {
@@ -45,7 +54,7 @@
   padding: 5px 10px;
   border: 3px solid #000000;
   box-shadow: 3px 3px 0 #000000;
-  background: #F0EDCC;
+  background: #ffcc00;
   font-weight: 750;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -60,4 +69,188 @@
 
 .card:hover {
   transform: translateY(-6px);
+}
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* ✅ translucent black */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fullscreen-card {
+  font-family: Montserrat, sans-serif;
+  font-weight: normal; 
+  background: linear-gradient(#ff3131, #ff7300);
+  border: 4px solid #000000;
+  box-shadow: 12px 12px 0 #000000;
+  color: #000000;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  position: relative;
+  animation: zoomIn 0.3s ease forwards;
+  opacity: 0; /* initial */
+  transform: scale(0.9); /* initial */
+}
+
+.fullscreen-card h2 {
+  margin-bottom: 10px;
+}
+
+.fullscreen-card .tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.close-button {
+  margin-top: 20px;
+  padding: 8px 14px;
+  background: crimson;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.read-button {
+  padding: 5px 10px;
+  border: 3px solid #000000;
+  background: #f0e8b9;
+  box-shadow: 3px 3px 0 #000000;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.read-button:hover {
+  transform: translate(1px, 1px);
+  background: #e1d5a5;
+}
+
+.tag-button {
+  padding: 5px 10px;
+  border: 3px solid #000000;
+  background: #ffcc00;
+  box-shadow: 3px 3px 0 #000000;
+  font-weight: 750;
+}
+
+
+
+.fullscreen-card h2 {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.fullscreen-card p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.fullscreen-card .tag {
+  display: inline-block;
+  background-color: #ffcc00;
+  color: #000;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: 2px solid #000000;
+  margin-top: 10px;
+  box-shadow: 3px 3px 0 #000000;
+}
+
+.close-button {
+  margin-top: 20px;
+  padding: 6px 12px;
+  background: crimson;
+  color: white;
+  border: 2px solid #000000;
+  font-weight: bold;
+  box-shadow: 3px 3px 0 #000000;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  transform: translate(1px, 1px);
+  background-color: #e83e3e;
+}
+.fullscreen-modal {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fullscreen-modal.fade-in {
+  opacity: 1;
+}
+
+.fullscreen-card {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+}
+
+.fullscreen-card.zoom-in {
+  opacity: 1;
+  transform: scale(1);
+}
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* fully transparent */
+  backdrop-filter: blur(8px); /* 👈 key part */
+  -webkit-backdrop-filter: blur(8px); /* for Safari */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fullscreen-modal.fade-in {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

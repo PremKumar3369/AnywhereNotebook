@@ -1,287 +1,234 @@
-:root {
-  --bg-color: #fffbe6;
-  --chat-bg: #eaf7f1;
-  --text-primary: #1a1a1a;
-  --text-secondary: #333;
-  --bot-message-bg: #fef9c3;
-  --user-message-bg: #06b6d4;
-  --border-color: #000;
-  --shadow: 2px 2px 0 #000;
-  --font-family: 'Comic Sans MS', 'Comic Neue', sans-serif;
-  --primary-gradient: linear-gradient(135deg, #06b6d4, #0ea5e9);
-  --secondary-gradient: linear-gradient(135deg, #f59e0b, #ef4444);
-}
-
-[data-theme="dark"] {
-  --bg-color: #0f172a;
-  --chat-bg: #02343F;
-  --text-primary: #fef9c3;
-  --text-secondary: #facc15;
-  --bot-message-bg: #334155;
-  --user-message-bg: #06b6d4;
-  --border-color: #fef08a;
-  --shadow: 2px 2px 0 #fef08a;
-}
-
-.askAiWrapper {
-  background-color: var(--bg-color);
-  color: var(--text-primary);
-  min-height: 100vh;
-  font-family: var(--font-family);
-  transition: all 0.3s ease;
-}
+/* AskAIChat.module.css — Flattened and Comic-ified */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
 .container {
- max-width: 1900px;
-margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+   height: 100dvh;
+  background: #ffffff;
+  color: #111;
+font-family: 'Bangers', cursive;   border: 4px solid #111;
+  border-radius: 12px;
+  margin: 0;
+  box-shadow: 4px 4px 0 #111;
 }
 
+/* Header */
 .header {
+  padding: 1rem;
+  background: #ffcc00;
+  border-bottom: 4px solid #111;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--bg-color);
-  border-bottom: 3px solid var(--border-color);
-  box-shadow: var(--shadow);
+  font-weight: bold;
+  color: #111;
 }
 
 .headerTitle h1 {
-  font-size: 1.75rem;
-  /* text-shadow: var(--shadow); */
+  margin: 0;
+  font-size: 1.6rem;
+  color: #ff0000;
+  text-shadow: 1px 1px 0 #111;
 }
 
 .botStatus {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #000;
 }
 
 .statusIndicator {
   width: 10px;
   height: 10px;
-  background: #10b981;
+  background: #00c853;
   border-radius: 50%;
-  animation: pulse 2s infinite;
+  border: 2px solid #111;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.7; }
+.userBanner {
+  font-size: 2.85rem;
+  color: #ff0000;
+  text-shadow: 1px 1px 0 #111;
 }
 
-.controls {
-  display: flex;
-  gap: 1rem;
-}
-
-.themeToggle {
-  background: var(--bot-message-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
+.controls .themeToggle {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #111;
   cursor: pointer;
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  box-shadow: var(--shadow);
-  transition: all 0.2s ease;
 }
 
+/* Chat area */
 .chatContainer {
   flex: 1;
   overflow-y: auto;
-  padding: 1.5rem 2rem;
-  background-color: var(--chat-bg);
-  scroll-behavior: smooth;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background-color: #fff;
 }
 
+/* Messages */
 .message {
   display: flex;
-  margin-bottom: 1.5rem;
-  animation: messageAppear 0.3s ease-out;
-}
-
-@keyframes messageAppear {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  gap: 0.75rem;
+  max-width: 90%;
+  color:#000
 }
 
 .userMessage {
+  align-self: flex-end;
   flex-direction: row-reverse;
 }
 
+.botMessage {
+  align-self: flex-start;
+}
+
 .avatar {
-  min-width: 40px;
-  height: 40px;
-  background: var(--primary-gradient);
-  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #d10000;
+  color: #fff;
   font-weight: bold;
-  border-radius: 12px;
+  border: 2px solid #111;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 1rem;
-  box-shadow: var(--shadow);
-}
-
-.userMessage .avatar {
-  background: var(--secondary-gradient);
+  font-family: monospace;
 }
 
 .messageBubble {
-  background-color: var(--bot-message-bg);
-  padding: 1rem;
-  border-radius: 10px;
-  max-width: 75%;
-  border: 2px solid var(--border-color);
-  box-shadow: var(--shadow);
+  padding: 0.8rem 1rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  background: #007bff;
+  color: #000000;
+  border: 2px solid #111;
+  box-shadow: 2px 2px 0 #111;
+  line-height: 1.5;
 }
 
 .userMessage .messageBubble {
-  background-color: var(--user-message-bg);
-  color: white;
-  border-color: var(--border-color);
+  background: #ffeb3b;
+  color: #111;
+  border-color: #111;
 }
 
+/* Typing */
 .typingIndicator {
-  display: flex;
-  margin-left: 3.5rem;
+  margin-left: 2.2rem;
 }
 
 .typingDots {
   display: flex;
-  gap: 0.3rem;
+  gap: 4px;
 }
 
 .typingDot {
   width: 8px;
   height: 8px;
-  background-color: var(--text-secondary);
+  background-color: #111;
   border-radius: 50%;
-  animation: typingBounce 1.4s infinite ease-in-out;
+  animation: blink 1.4s infinite ease-in-out both;
 }
 
-.typingDot:nth-child(1) { animation-delay: -0.32s; }
-.typingDot:nth-child(2) { animation-delay: -0.16s; }
-
-@keyframes typingBounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+.typingDot:nth-child(2) {
+  animation-delay: 0.2s;
 }
 
+.typingDot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Input */
 .inputContainer {
-  padding: 1rem 2rem;
-  background-color: var(--bg-color);
-  border-top: 3px solid var(--border-color);
-  box-shadow: var(--shadow);
+  border-top: 4px solid #111;
+  background: #ffcc00;
+  padding: 0.75rem;
 }
 
 .inputWrapper {
   display: flex;
-  gap: 0.5rem;
-  background-color: var(--chat-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: 0.5rem;
   align-items: center;
-  box-shadow: var(--shadow);
+  gap: 0.5rem;
 }
 
 .messageInput {
   flex: 1;
-  padding: 0.75rem;
-  border: none;
-  background: none;
-  color: var(--text-primary);
+  padding: 0.65rem 1rem;
+  border: 2px solid #111;
+  border-radius: 20px;
+  background: #fff;
+  color: #000;
   font-size: 1rem;
-  font-family: inherit;
+  outline: none;
+  box-shadow: 2px 2px 0 #111;
 }
 
 .messageInput:focus {
-  outline: none;
-}
-
-.messageInput::placeholder {
-  color: var(--text-secondary);
+  border-color: #d10000;
 }
 
 .actionButtons {
   display: flex;
-  align-items: center;
   gap: 0.4rem;
 }
 
-.actionButton, .sendButton {
-  background: var(--bot-message-bg);
-  border: 2px solid var(--border-color);
-  padding: 0.5rem;
-  font-size: 1rem;
+.actionButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #111;
   cursor: pointer;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  transition: transform 0.1s ease;
-}
-
-.actionButton:hover, .sendButton:hover {
-  transform: scale(1.05);
 }
 
 .sendButton {
-  background: var(--primary-gradient);
+  background: #d10000;
   color: white;
-  font-weight: bold;
+  border: 2px solid #111;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #111;
 }
-@media (max-width: 768px) {
-  .container {
-    height: 100vh; /* Keep full height */
-    display: flex;
-    flex-direction: column;
-  }
 
-  .chatContainer {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-  }
+.sendButton:hover {
+  background: #fff;
+  color: #d10000;
+}
 
-  .inputContainer {
-    padding: 1rem;
-    border-top: 2px solid var(--border-color);
-    background-color: var(--bg-color);
-    box-shadow: var(--shadow);
-  }
-
-  .inputWrapper {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
+@media (max-width: 600px) {
   .messageInput {
-    width: 100%;
-  }
-
-  .actionButtons {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .sendButton {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .askAiWrapper {
     font-size: 0.95rem;
   }
 
-  .avatar {
-    width: 32px;
-    height: 32px;
-    font-size: 0.9rem;
+  .sendButton {
+    font-size: 0.85rem;
+  }
+
+  .inputWrapper {
+    flex-wrap: wrap;
   }
 }

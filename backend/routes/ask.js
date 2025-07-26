@@ -16,8 +16,8 @@ async function getEmbedder() {
 // POST /api/notes/ask
 router.post("/ask", fetchUser, async (req, res) => {
   const { question } = req.body;
-  console.log('🔍 Question:', question);
-  console.log('👤 req.user:', req.user);
+  // console.log('🔍 Question:', question);
+  // console.log('👤 req.user:', req.user);
   if (!question || question.trim() === "") {
     return res.status(400).json({ error: "Question is required" });
   }
@@ -33,7 +33,7 @@ router.post("/ask", fetchUser, async (req, res) => {
       match_count: 5,
       user_id: req.user.id,
     });
-     console.log('📦 Vector search results:', data);
+    //  console.log('📦 Vector search results:', data);
 
     if (error) {
       console.error("Supabase match_notes error:", error);

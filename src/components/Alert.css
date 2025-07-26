@@ -1,80 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
 .mybox {
-  font-family: "Josefin Sans", sans-serif;
-  width: fit-content;
-  max-width: 90%;
-  border: 2px solid #000;
-  text-align: center;
-  padding: 20px;
-  font-weight: bold;
-  border-radius: 10px;
   position: fixed;
-  top: 20px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  font-family: 'Bangers', cursive;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  border: 4px solid #000;
+  border-radius: 8px;
+  box-shadow: 6px 6px 0 #000;
+  background-color: #ffe600;
+  color: #000;
+
   opacity: 0;
   animation: fadeInOut 3s ease forwards;
+  pointer-events: none;
 }
 
-/* 🔄 Fade In/Out Animation */
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-10px);
-  }
-  10%, 90% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-10px);
-  }
-}
 
+/* =====================
+  SUCCESS (POW! / BAM!)
+===================== */
 .success {
-  background: #b3eca9;
-  color: #306517;
-  border-color: #2d2d2d;
+  background: #ffe600;
+  color: #00ff37;
+  border: 4px solid #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  box-shadow: 6px 6px 0 #000;
+  animation: bamEffect 0.6s ease-in-out, fadeInOut 3s ease forwards;
+  position: relative;
 }
 
 .success:before {
-  font-family: "Font Awesome 5 Free";
-  color: #306517;
-  font-weight: 900;
-  content: "";
-  font-size: 2rem;
+  content: attr(data-burst);
   position: absolute;
-  left: 10px;
-  top: 10px;
-  text-shadow: 1px 2px 1px black;
-  transform: rotate(-5deg);
+  top: -12px;
+  left: -16px;
+  font-size: 2rem;
+  color: #ff0000;
+  text-shadow: 2px 2px 0 #000;
+  transform: rotate(-15deg);
 }
 
+
+/* =====================
+   DANGER (CRASH!)
+===================== */
 .danger {
-  background: #f8d7da;
-  color: #842029;
-  border-color: #842029;
-  animation: fadeInOut 3s ease forwards, shake 0.3s ease-in-out;
-}
-
-/* 🚨 Shake Animation */
-@keyframes shake {
-  0% { transform: translateX(-50%) translateY(0); }
-  20% { transform: translateX(-52%) translateY(-2px); }
-  40% { transform: translateX(-48%) translateY(2px); }
-  60% { transform: translateX(-52%) translateY(-2px); }
-  80% { transform: translateX(-48%) translateY(2px); }
-  100% { transform: translateX(-50%) translateY(0); }
+  background: #ff3131;
+  color: #fff;
+  border: 4px solid #000;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 1rem 2rem;
+  box-shadow: 6px 6px 0 #000;
+  animation: crashEffect 0.5s ease-in-out, fadeInOut 3s ease forwards;
+  position: relative;
 }
 
 .danger:before {
-  content: "!";
-  font-weight: 900;
-  font-size: 1.5rem;
-  color: #842029;
+  content: "💣 CRASH!";
   position: absolute;
-  left: 10px;
-  top: 10px;
+  top: -16px;
+  left: -12px;
+  font-size: 1.4rem;
+  color: #ffe600;
+  text-shadow: 2px 2px 0 #000;
+  transform: rotate(-5deg);
+}
+
+/* ================
+  Animations
+================ */
+@keyframes bamEffect {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.2) rotate(-3deg); }
+  60% { transform: scale(1.1) rotate(3deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@keyframes crashEffect {
+  0% { transform: translateX(-50%) scale(1) rotate(0deg); }
+  20% { transform: translateX(-50%) rotate(-3deg); }
+  40% { transform: translateX(-50%) rotate(3deg); }
+  60% { transform: translateX(-50%) rotate(-2deg); }
+  80% { transform: translateX(-50%) rotate(2deg); }
+  100% { transform: translateX(-50%) scale(1) rotate(0); }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 1; }
+}
+.mybox {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+
+  font-family: 'Bangers', cursive;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  border: 4px solid #000;
+  border-radius: 8px;
+  background: #ffe600;
+  color: #000;
+  box-shadow: 6px 6px 0 #000;
+
+  animation: fadeInOut 3s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 1; }
 }

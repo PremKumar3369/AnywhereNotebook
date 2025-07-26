@@ -6,33 +6,44 @@ import NoteItem from "./Noteitem";
 import Addnote from "./Addnote";
 import "./Notes.css";
 import { useNavigate } from "react-router-dom";
-
+import AskAIChat from "./AskAIChat";
+import AnimatedHeading from "./AnimatedHeading";
 function Notes() {
   const { notes, getNotes, editNote, deleteNote } = useContext(NoteContext);
   const { showAlert } = useContext(AlertContext); // ✅ Access showAlert
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const ref = useRef(null);
   const refUpdate = useRef(null);
+  // Inside Notes.js
+  const formRef = useRef();
+  const aiRef = useRef();
 
-  const [note, setNote] = useState({ id: "", Edit_title: "", Edit_description: "", Edit_tag: "" });
+  const [note, setNote] = useState({
+    id: "",
+    Edit_title: "",
+    Edit_description: "",
+    Edit_tag: "",
+  });
 
   useEffect(() => {
-    if(localStorage.getItem("token")){
-  getNotes();
+    if (localStorage.getItem("token")) {
+      getNotes();
+    } else {
+      navigate("/Login");
     }
-    else{
-      navigate("/Login")
+  }, [getNotes, navigate]);
+  useEffect(() => {
+    if (formRef.current && aiRef.current) {
+      aiRef.current.style.height = `${formRef.current.offsetHeight}px`;
     }
-    
-  }, []);
-
+  }, [getNotes, navigate]);
   const updateNote = (currentNote) => {
     ref.current.click();
     setNote({
       id: currentNote._id,
       Edit_title: currentNote.title,
       Edit_description: currentNote.description,
-      Edit_tag: currentNote.tag
+      Edit_tag: currentNote.tag,
     });
   };
 
@@ -54,7 +65,14 @@ const navigate = useNavigate()
 
   return (
     <>
-      <Addnote />
+      <div className="notes-top-section">
+        <div className="notes-form-container" ref={formRef}>
+          <Addnote />
+        </div>
+        <div className="ai-assistant-container" ref={aiRef}>
+          <AskAIChat />
+        </div>
+      </div>
 
       {/* Hidden modal trigger button */}
       <button
@@ -68,33 +86,85 @@ const navigate = useNavigate()
       </button>
 
       {/* Modal */}
-      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel">
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">Edit Note</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
+                Edit Note
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
             </div>
             <div className="modal-body">
               <form>
                 <div className="mb-3">
-                  <label htmlFor="Edit_title" className="form-label">Title</label>
-                  <input type="text" className="form-control" id="Edit_title" name="Edit_title" value={note.Edit_title} onChange={onChange} />
+                  <label htmlFor="Edit_title" className="form-label">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="Edit_title"
+                    name="Edit_title"
+                    value={note.Edit_title}
+                    onChange={onChange}
+                  />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="Edit_description" className="form-label">Description</label>
-                  <input type="text" className="form-control" id="Edit_description" name="Edit_description" value={note.Edit_description} onChange={onChange} />
+                  <label htmlFor="Edit_description" className="form-label">
+                    Description
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="Edit_description"
+                    name="Edit_description"
+                    value={note.Edit_description}
+                    onChange={onChange}
+                  />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="Edit_tag" className="form-label">Tag</label>
-                  <input type="text" className="form-control" id="Edit_tag" name="Edit_tag" value={note.Edit_tag} onChange={onChange} />
+                  <label htmlFor="Edit_tag" className="form-label">
+                    Tag
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="Edit_tag"
+                    name="Edit_tag"
+                    value={note.Edit_tag}
+                    onChange={onChange}
+                  />
                 </div>
               </form>
             </div>
 
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={refUpdate}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                ref={refUpdate}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleClick}
+              >
+                Update Note
+              </button>
             </div>
           </div>
         </div>
@@ -102,7 +172,7 @@ const navigate = useNavigate()
 
       {/* Note Grid */}
       <div className="notes-wrapper">
-        <h2>Your notes are here</h2>
+        <AnimatedHeading title={`Notes`} />
         {Array.isArray(notes) && notes.length > 0 ? (
           <div className="note-grid">
             {notes.map((note, index) => (

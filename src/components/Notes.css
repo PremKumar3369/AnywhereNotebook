@@ -1,4 +1,11 @@
 /* src/components/Notes.css */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+body{
+  background-image: 
+    radial-gradient(#000 1px, transparent 1px),
+    radial-gradient(#000 1px, transparent 1px);
+}
 .notes-wrapper {
   padding: 2rem;
 }
@@ -7,4 +14,68 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 3 per row if possible */
   gap: 20px;
+}
+.top-section-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.left-note-form {
+  flex: 1 1 400px;
+}
+
+.right-ai {
+  flex: 1 1 400px;
+  max-height: 600px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border: 2px solid #0a3d44;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 4px 4px 0px #333;
+}
+.notes-top-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+     margin-bottom: -5rem;
+    padding: 2rem;
+}
+
+/* Left side: Add Note */
+.notes-form-container {
+  flex: 1 1 480px;
+  max-width: 600px;
+}
+
+/* Right side: AskUrAI */
+.ai-assistant-container {
+  flex: 1 1 480px;
+  max-width: 600px;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'Bangers', cursive; /* to match AddNote style */
+  display: flex;
+  flex-direction: column;
+  height: 700px;/* Or whatever height you want */
+  overflow: hidden; 
+}
+
+/* Make it full width under the form on small screens */
+@media screen and (max-width: 768px) {
+  .notes-top-section {
+    flex-direction: column;
+  }
+
+  .notes-form-container,
+  .ai-assistant-container {
+    width: 100%;
+    max-width: none;
+  }
 }

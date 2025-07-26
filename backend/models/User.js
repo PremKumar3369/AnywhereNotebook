@@ -9,7 +9,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true  // ✅ Add unique constraint here
+    unique: true  // ✅ Ensures no duplicate emails
   },
   password: {
     type: String,
@@ -18,10 +18,18 @@ const UserSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+
+  // ✅ New fields for OTP
+  resetOtp: {
+    type: String,
+    default: null
+  },
+  resetOtpExpires: {
+    type: Date,
+    default: null
   }
 });
 
-// ✅ No need for User.createIndexes();
 const User = mongoose.model("User", UserSchema);
-
 module.exports = User;

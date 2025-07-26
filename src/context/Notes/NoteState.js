@@ -36,7 +36,7 @@ const NoteState = (props) => {
   try {
     const payload = { title, description, tag };
 
-    console.log("Payload being sent:", payload);
+    // console.log("Payload being sent:", payload);
 
     const response = await fetch(`${host}/api/notes/addNote`, {
       method: "POST",
@@ -98,7 +98,7 @@ const NoteState = (props) => {
 
   // 🔍 Log response to debug structure
   const updatedNote = await response.json();
-  console.log("Updated note from server:", updatedNote);
+  // console.log("Updated note from server:", updatedNote);
 
   // 🛠 Manually update state if backend response is incomplete
   setnotes((prevNotes) =>

@@ -1,19 +1,21 @@
 import React from "react";
 import Notes from "./Notes";
 import { Link } from "react-router-dom";
+import "./Home.css";
+import AnimatedHeading from "./AnimatedHeading";
 
 function Home() {
   const token = localStorage.getItem("token");
 
   if (!token) {
     return (
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <h2>🔒 Please login to use AnywhereNotebook.</h2>
+      <div className="container d-flex justify-content-center align-items-center flex-column min-vh-100 text-center"   style={{ minHeight: "100vh", transform: "translateY(-100px)" }}
+>
+        <AnimatedHeading title={`Please Login\nTo Use AnywhereNotebook`} />
         <Link
+          className="btn mt-4"
           to="/Login"
           style={{
-            marginTop: "15px",
-            display: "inline-block",
             padding: "10px 20px",
             backgroundColor: "#F0EDCC",
             color: "#02343F",

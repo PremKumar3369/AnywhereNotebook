@@ -39,15 +39,34 @@
 .fa-solid{
 cursor: pointer;
 }
-body {
-  background-color: #F0EDCC;
-  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-  background-repeat: repeat;
-  background-size: auto;
-  color: #02343F;
-  font-family: 'Roboto', sans-serif;
+html, body {
+  height: 100%;
   margin: 0;
+  padding: 0;
+}
+
+body {
+  /* background-color: #ffe600; */
+  background-image: 
+    radial-gradient(#000 1px, transparent 1px),
+    radial-gradient(#000 1px, transparent 1px);
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
+  background-repeat: repeat;
 }
 
 
+
+
+/* NProgress — place bar just below navbar (assumes navbar height ≈ 60px) */
+#nprogress {
+  pointer-events: none;
+}
+#nprogress .bar {
+  top: 0;
+  height: 2px;
+  position: fixed;
+  background: #00bbff;
+  z-index: 9999;
+}
 
