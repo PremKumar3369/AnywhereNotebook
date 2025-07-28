@@ -1,38 +1,56 @@
-require('dotenv').config(); // this line MUST be the first line
+require("dotenv").config(); // MUST be the first line
 const express = require("express");
 const connectToMongo = require("./database");
-
-
-var cors = require("cors");
+const cors = require("cors");
 
 const app = express();
 
+// ✅ Allow only these origins
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://anywhere-notebook-git-main-premkumars-projects-da6e80b2.vercel.app",
+  "https://anywhere-notebook.vercel.app"
+];
+
 (async () => {
   await connectToMongo();
-  // to enable CORS
-app.use(cors({
-  origin: ["https://anywhere-notebook.vercel.app"],
-  credentials: true,
-}));
+
+  // ✅ Fix: CORS with function to handle multiple origins
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true
+  }));
+
+  // ✅ Optional: Add CORS headers manually (not strictly required with cors(), but safe)
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+  });
 
   // Middleware
   app.use(express.json());
 
-  // Available Routes
+  // Routes
   app.use("/api/auth", require("./routes/auth"));
   app.use("/api/notes", require("./routes/notes"));
   app.use("/api/notes", require("./routes/ask"));
 
-  // Root route (optional)
+  // Test route
   app.get("/", (req, res) => {
     res.send("hello");
   });
 
-  // Start the server
   const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server listening on http://localhost:${PORT}`);
-});
-
+  app.listen(PORT, () => {
+    console.log(`🚀 Server listening on http://localhost:${PORT}`);
+  });
 })();
