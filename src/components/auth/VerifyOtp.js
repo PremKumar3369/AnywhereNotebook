@@ -19,11 +19,14 @@ const VerifyOtp = () => {
     setMessage("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/reset-password", {
-        email,
-        otp,
-        newPassword,
-      });
+      const baseURL = process.env.REACT_APP_API_BASE_URL;
+const response = await axios.post(`${baseURL}/api/auth/reset-password`, {
+  email,
+  otp,
+  newPassword,
+});
+
+     
 
       setMessage("✅ Password reset successful. Redirecting to login...");
       setTimeout(() => navigate("/login"), 2000);

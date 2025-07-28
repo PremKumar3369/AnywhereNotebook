@@ -10,29 +10,35 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://anywhere-notebook-git-main-premkumars-projects-da6e80b2.vercel.app",
   "https://anywhere-notebook.vercel.app",
-   "https://anywhere-notebook-7y27z24zn-premkumars-projects-da6e80b2.vercel.app",
-   "https://anywhere-notebook-git-main-premkumars-projects-da6e80b2.vercel.app"
+
+  "https://anywhere-notebook-git-main-premkumars-projects-da6e80b2.vercel.app",
 ];
 
 (async () => {
   await connectToMongo();
 
   // ✅ Fix: CORS with function to handle multiple origins
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true
-  }));
+  app.use(
+    cors({
+      origin: function (origin, callback) {
+        console.log("Incoming origin:", origin); // 👈 Add this line
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true,
+    })
+  );
 
   // ✅ Optional: Add CORS headers manually (not strictly required with cors(), but safe)
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", req.headers.origin);
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.header("Access-Control-Allow-Credentials", "true");
     next();

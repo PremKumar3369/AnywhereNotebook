@@ -14,7 +14,9 @@ const ForgotPassword = () => {
     setMessage("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/send-otp", { email });
+      const baseURL = process.env.REACT_APP_API_BASE_URL;
+const response = await axios.post(`${baseURL}/api/auth/send-otp`, { email });
+
       setMessage("OTP sent to your email");
       // Navigate to OTP verify page with email in state
       navigate("/verify-otp", { state: { email } });
