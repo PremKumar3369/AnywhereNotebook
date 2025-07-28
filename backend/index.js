@@ -19,18 +19,16 @@ const allowedOrigins = [
 
   // ✅ Fix: CORS with function to handle multiple origins
   app.use(
-    cors({
-      origin: function (origin, callback) {
-        console.log("Incoming origin:", origin); // 👈 Add this line
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
-      },
-      credentials: true,
-    })
-  );
+  cors({
+    origin: function (origin, callback) {
+  console.log("Incoming origin:", origin);
+  callback(null, true); // temporarily allow all origins
+}
+    },
+  
+  )
+);
+
 
   // ✅ Optional: Add CORS headers manually (not strictly required with cors(), but safe)
   app.use((req, res, next) => {
