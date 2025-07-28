@@ -9,7 +9,9 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://anywhere-notebook-git-main-premkumars-projects-da6e80b2.vercel.app",
-  "https://anywhere-notebook.vercel.app"
+  "https://anywhere-notebook.vercel.app",
+   "https://anywhere-notebook-7y27z24zn-premkumars-projects-da6e80b2.vercel.app",
+   "https://anywhere-notebook-git-main-premkumars-projects-da6e80b2.vercel.app"
 ];
 
 (async () => {
