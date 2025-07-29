@@ -41,12 +41,12 @@ export default function AskAIChat() {
       .catch(() => navigate('/login'));
   }, [navigate]);
 
-  useEffect(() => {
-    // chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    document.body.setAttribute('data-theme', isDarkTheme ? 'dark' : 'light');
-  }, [messages, isDarkTheme]);
+ useEffect(() => {
+  chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+}, [messages]);
 
-  const handleSend = async () => {
+  const handleSend = async (e) => {
+    e.preventDefault(); 
     const trimmed = input.trim();
     if (!trimmed) return;
 
@@ -76,7 +76,7 @@ export default function AskAIChat() {
     }
   };
 
-  const handleKeyDown = e => { if (e.key === 'Enter') handleSend(); };
+  const handleKeyDown = e => { if (e.key === 'Enter') handleSend(e); };
 
   const renderMessageText = text =>
     text.split('\n').map((line, i) => <div key={i}>{line}</div>);

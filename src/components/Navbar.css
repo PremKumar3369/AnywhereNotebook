@@ -111,18 +111,18 @@
   .navbar__menu {
     flex-direction: column;
     position: fixed;
-    top: 80px;
+    top: 70px;
     right: -100%;
     background: #ffcc00;
-    width: 240px;
+    width: 200px;
     padding: 1.5rem;
     gap: 1rem;
-    border: 4px solid #000;
+    border: 2px solid #000;
     border-right: none;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
     transition: right 0.3s ease;
-    box-shadow: -8px 8px 0 #000;
+    box-shadow: -4px 2px 0 #000;
   }
 
   .navbar__menu.open {
@@ -192,13 +192,7 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-.bar {
-  width: 24px;
-  height: 4px;
-  background: #000;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
+
 /* === GHOST ANIMATION === */
 .navbar__logo-wrapper {
   position: relative;
@@ -307,5 +301,53 @@ background-image: radial-gradient(ellipse at 35% 40%, #000 8%, transparent 0%),
     100% {
       transform: translateX(-2600%) rotateZ(-90deg);
     }
+  }
+}
+.ham {
+  cursor: pointer;
+  transition: transform 400ms;
+  user-select: none;
+   display: none; 
+   color: #ff3131;
+}
+
+.line {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+   
+    
+}
+
+.ham3 .top {
+  stroke-dasharray: 40 130;
+}
+.ham3 .middle {
+  stroke-dasharray: 40 140;
+}
+.ham3 .bottom {
+  stroke-dasharray: 40 205;
+}
+
+.ham3.active .top {
+  stroke-dasharray: 75 130;
+  stroke-dashoffset: -63px;
+}
+.ham3.active .middle {
+  stroke-dashoffset: -102px;
+}
+.ham3.active .bottom {
+  stroke-dasharray: 110 205;
+  stroke-dashoffset: -86px;
+}
+.navbar__hamburger-svg {
+  margin-right: 1rem;
+  z-index: 1100;
+}
+@media (max-width: 768px) {
+  .ham {
+    display: block; /* show on mobile */
   }
 }

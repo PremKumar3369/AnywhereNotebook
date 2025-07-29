@@ -13,18 +13,8 @@ function Home() {
 >
         <AnimatedHeading title={`Please Login\nTo Use AnywhereNotebook`} />
         <Link
-          className="btn mt-4"
+          className="button-login"
           to="/Login"
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#F0EDCC",
-            color: "#02343F",
-            border: "2px solid #000",
-            textDecoration: "none",
-            fontWeight: "bold",
-            boxShadow: "2px 2px 0 #000",
-            transition: "all 0.2s ease",
-          }}
         >
           Go to Login
         </Link>

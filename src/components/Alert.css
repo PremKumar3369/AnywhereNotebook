@@ -25,8 +25,8 @@
   SUCCESS (POW! / BAM!)
 ===================== */
 .success {
-  background: #ffe600;
-  color: #00ff37;
+  background: #0066ff;
+  color: #ffffff;
   border: 4px solid #000;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -111,8 +111,8 @@
   padding: 1rem 2rem;
   border: 4px solid #000;
   border-radius: 8px;
-  background: #ffe600;
-  color: #000;
+  background: #0022ff;
+  color: #ffffff;
   box-shadow: 6px 6px 0 #000;
 
   animation: fadeInOut 3s ease forwards;

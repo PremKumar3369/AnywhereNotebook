@@ -86,9 +86,12 @@
   animation: fadeSlideUp 0.8s ease-out;
   animation-delay: 0.4s;
   animation-fill-mode: both;
+  border-radius: 55px;
 }
 
 .button-login:hover {
   transform: translateY(-2px);
   box-shadow: 4px 4px 0 #000;
+  background-color: #ff3131;
+  color: gainsboro;
 }
