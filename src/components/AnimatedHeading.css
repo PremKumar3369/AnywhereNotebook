@@ -56,3 +56,22 @@
   max-width: 100%;
   word-break: break-word;
 }
+@media screen and (max-width: 480px) {
+  .animated-heading {
+    font-size: 2rem;
+    margin: 40px 0;
+  }
+
+  .letter-container {
+    gap: 0.1em;
+    line-height: 1.2;
+    justify-content: center;
+    word-break: normal;
+    flex-wrap: wrap;
+  }
+
+  .letterDrop {
+    letter-spacing: 0.1em;
+    font-size: 1.8rem;
+  }
+}

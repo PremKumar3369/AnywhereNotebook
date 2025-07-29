@@ -20,7 +20,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  min-height: 100vh;
+  min-height: 90vh;
   
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
