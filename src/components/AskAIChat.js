@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './AskAIChat.module.css';
 import { FaPaperPlane, FaPaperclip, FaMicrophone, FaMoon, FaSun } from 'react-icons/fa';
+import HelpWidget from './HelpWidget';
 
 export default function AskAIChat() {
   const navigate = useNavigate();
@@ -102,13 +103,7 @@ export default function AskAIChat() {
             <span> <strong>{user.name}</strong></span>
           </div>
           <div className={styles.controls}>
-            <button
-              className={styles.themeToggle}
-              onClick={() => setIsDarkTheme(!isDarkTheme)}
-              aria-label="Toggle theme"
-            >
-              {isDarkTheme ? <FaSun /> : <FaMoon />}
-            </button>
+             <HelpWidget/>
           </div>
         </header>
 
